@@ -23,5 +23,6 @@ $todos = json_decode($todos,true);
     }
     include "pages/" . $page . ".php";
     ?>
+    <script src="app.js"></script>
 </body>
 </html>

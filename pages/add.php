@@ -3,7 +3,8 @@
     $rand = rand() . time();
     $new_todos = [
       "id"=>$rand,
-      "todo"=>htmlspecialchars($_POST["todo_name"])
+      "todo"=>htmlspecialchars($_POST["todo_name"]),
+      "status"=> 0,
     ];
     $todos[] = $new_todos;
     $todos = json_encode($todos,JSON_PRETTY_PRINT);
@@ -15,7 +16,8 @@
       <!-- Input Field Example -->
       <div class="mb-3">
         <label for="inputName" class="form-label">TODO name</label>
-        <input name="todo_name" type="text" class="form-control" id="inputName" aria-describedby="nameHelp" required>
+        <input autofocus name="todo_name" type="text" class="form-control" id="inputName" aria-describedby="nameHelp" required>
+        
       </div>
       <!-- Submit Button -->
       <button type="submit" name="submit" class="btn btn-primary">Save Data</button>
