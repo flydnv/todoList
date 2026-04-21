@@ -1,4 +1,9 @@
 <?php 
+$todoCount = count($todos);
+$perPage = 4;
+$totalPageCount = ceil($todoCount/$perPage);
+$activePage = isset($_GET["p"]) ? +$_GET["p"] : 1;
+$offset = $activePage ? ($activePage - 1) * $perPage : 0;
 if($_SERVER["REQUEST_METHOD"]==="POST" && isset($_POST["deleted_id"])){
     $deleted_id = $_POST["deleted_id"];
     $todos = array_filter($todos, function ($todo) use ($deleted_id){
@@ -22,7 +27,13 @@ if($_SERVER["REQUEST_METHOD"]==="POST" && isset($_POST["selected_option"])){
     }
     file_put_contents("todos.json", json_encode($todos, JSON_PRETTY_PRINT));
 }
+$todos = array_slice($todos, $offset, $perPage);
 ?>
+<ul class="pagination">
+    <?php for($i=0; $i<$totalPageCount; $i++):?>
+        <li class="<?=($i+1)===$activePage ? "active" : "" ?>"><a href="&?p=<?= $i+1 ?>"><?= $i+1 ?></a></li>
+    <?php endfor; ?>
+</ul>
 <!-- Delete Form Start-->
     <form id="delete_form" method="post">
         <input id="deleted_id" type="hidden" value="" name="deleted_id">
@@ -41,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST" && isset($_POST["selected_option"])){
             </form>
                 <button class="p-1 rounded w-100 bg-danger mt-1 delete_buttons" data-id="<?= $todo["id"] ?>">Sil</button>
         </li>
-            
         <?php endforeach; ?>
     </ul>
+    
 </div>
